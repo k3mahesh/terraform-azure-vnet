@@ -29,12 +29,11 @@ locals {
   }
 }
 
-module "resource_group" {
-    source   = "../modules/resource_group"
-    rg_name  = "DEV-RG"
+resource "azurerm_resource_group" "rg" {
+    name     = "DEV-RG"
     location = "westeurope"
-   
-    tags = local.tags
+
+    tags     = local.tags
 }
 
 module "virtual_network" {
@@ -63,12 +62,11 @@ locals {
   }
 }
 
-module "resource_group" {
-    source   = "../modules/resource_group"
-    rg_name  = "K8S-RG"
+resource "azurerm_resource_group" "rg" {
+    name     = "DEV-RG"
     location = "westeurope"
-   
-    tags = local.tags
+
+    tags     = local.tags
 }
 
 module "network_security_group_database" {
