@@ -24,14 +24,14 @@ provider "azurerm" {
 
 locals {
   tags = {
-        env = "AKS-DEV"
-        team = "DEV"
+        env = "DEV"
+        team = "DEV-01"
   }
 }
 
 module "resource_group" {
     source   = "../modules/resource_group"
-    rg_name  = "K8S-RG"
+    rg_name  = "DEV-RG"
     location = "westeurope"
    
     tags = local.tags
@@ -43,7 +43,7 @@ module "virtual_network" {
     location             = module.resource_group.rg_location
     resource_group_name  = module.resource_group.rg_name
     vnet_cidr            = ["10.0.0.0/16"]
-    subnet_names         = ["aks", "management"]
+    subnet_names         = ["jump", "management"]
     subnet_prefixes      = ["10.0.0.0/24", "10.0.1.0/24"]
 
     tags = local.tags
@@ -97,11 +97,11 @@ module "virtual_network" {
     location             = module.resource_group.rg_location
     resource_group_name  = module.resource_group.rg_name
     vnet_cidr            = ["10.0.0.0/16"]
-    subnet_names         = ["aks", "database"]
+    subnet_names         = ["jump", "management"]
     subnet_prefixes      = ["10.0.0.0/24", "10.0.1.0/24"]
 
     nsg_ids = {
-        database         = module.network_security_group_database.nsg_id
+        management       = module.network_security_group_database.nsg_id
     }
 
     tags = local.tags
